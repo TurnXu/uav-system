@@ -1,0 +1,11 @@
+build/
+devel/
+install/
+log/
+*.bag
+*.py[cod]
+__pycache__/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
