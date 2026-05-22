@@ -8,11 +8,11 @@ This project focuses on UAV autonomous perception and navigation. The current re
 
 The system can be used as a foundation for UAV visual odometry, stereo perception, autonomous navigation experiments, flight-state estimation research, ROS-based UAV integration, and project demonstration.
 
-## Demo
+## Demo Video
 
-A demonstration video is provided in this repository:
+Click the link below to watch the UAV system demonstration:
 
-[Watch the UAV system demo](./demo.mp4)
+[Watch the demo video](https://github.com/TurnXu/uav-system/raw/main/demo.mp4)
 
 ## System Architecture
 
