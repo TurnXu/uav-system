@@ -8,6 +8,12 @@ This project focuses on UAV autonomous perception and navigation. The current re
 
 The system can be used as a foundation for UAV visual odometry, stereo perception, autonomous navigation experiments, flight-state estimation research, ROS-based UAV integration, and project demonstration.
 
+## Demo
+
+A demonstration video is provided in this repository:
+
+[Watch the UAV system demo](./demo.mp4)
+
 ## System Architecture
 
 ```text
