@@ -1,18 +1,111 @@
 # UAV System
 
-A robotics-oriented UAV project containing stereo visual odometry resources, camera model components, demonstration material, and project documentation. The repository is suitable for UAV perception, navigation, autonomous control experiments, and engineering demonstration.
+UAV System is a robotics-oriented project for stereo visual odometry, autonomous perception, and engineering demonstration. The repository contains two main parts:
 
-## Project Overview
+- `P2P2`: ROS-based stereo visual odometry and camera model code.
+- `P3`: UAV system demonstration material, project manual, and video presentation assets.
 
-This project focuses on UAV autonomous perception and navigation. The current repository includes a ROS-style stereo visual odometry package, camera model package, demo video, and project manual.
+The project is suitable for UAV perception experiments, stereo visual odometry validation, ROS-based system integration, and course or engineering project demonstration.
 
-The system can be used as a foundation for UAV visual odometry, stereo perception, autonomous navigation experiments, flight-state estimation research, ROS-based UAV integration, and project demonstration.
+## Demo
 
-## Demo Video
+The repository includes a UAV system demonstration video:
 
-Click the link below to watch the UAV system demonstration:
+[Watch demo video](https://github.com/TurnXu/uav-system/raw/main/demo.mp4)
 
-[Watch the demo video](https://github.com/TurnXu/uav-system/raw/main/demo.mp4)
+## Project Structure
+
+```text
+.
++-- README.md
++-- demo.mp4
++-- project3_manual (1).pdf
++-- P2P2/
+    +-- README.md
+    +-- LICENSE
+    +-- report.pdf
+    +-- camera_models/
+    +-- stereo_vo_estimator/
+```
+
+## P2P2: Stereo Visual Odometry
+
+`P2P2` is the code-oriented part of this repository. It provides a ROS Noetic / C++ stereo visual odometry pipeline for RealSense-style stereo image streams.
+
+Main capabilities:
+
+- Stereo image synchronization with ROS `message_filters`.
+- Camera model and calibration utilities.
+- Feature detection and optical-flow tracking.
+- Stereo triangulation from calibrated left and right cameras.
+- PnP/RANSAC-based relative pose estimation.
+- Quality-aware feature filtering and PnP input selection.
+- Lightweight IMU-assisted runtime diagnosis.
+- RViz visualization of odometry, path, camera pose, point cloud, and confidence information.
+
+Main directories:
+
+```text
+P2P2/
++-- camera_models/          # camera models and calibration utilities
++-- stereo_vo_estimator/    # ROS package for stereo visual odometry
+```
+
+Important files:
+
+```text
+P2P2/stereo_vo_estimator/src/stereo_vo_node.cpp
+P2P2/stereo_vo_estimator/src/estimator.cpp
+P2P2/stereo_vo_estimator/src/parameters.cpp
+P2P2/stereo_vo_estimator/config/realsense_1/realsense_n3_unsync.yaml
+P2P2/stereo_vo_estimator/launch/stereo_vo_bag.launch
+```
+
+Default input topics:
+
+```text
+/camera/infra1/image_rect_raw
+/camera/infra2/image_rect_raw
+/djiros/imu
+```
+
+Main output topics:
+
+```text
+/stereo_vo/Odometry
+/stereo_vo/Camera_pose
+/stereo_vo/Path
+/stereo_vo/PointCloud
+/stereo_vo/Relative_pose
+/stereo_vo/vo_confidence
+/stereo_vo/frame_quality_text
+```
+
+For detailed usage, see:
+
+```text
+P2P2/README.md
+```
+
+## P3: UAV System Demonstration
+
+`P3` is the project demonstration and documentation part. It focuses on system-level presentation rather than standalone source code.
+
+Included material:
+
+```text
+project3_manual (1).pdf    # project manual and system documentation
+demo.mp4                   # UAV system demonstration video
+P2P2/report.pdf            # stereo visual odometry report
+```
+
+This part can be used for:
+
+- UAV system design explanation.
+- Visual odometry experiment presentation.
+- Demo video display.
+- Project report submission.
+- Engineering or course presentation.
 
 ## System Architecture
 
@@ -21,7 +114,7 @@ UAV System
 +-- Sensor Layer
 |   +-- Stereo camera
 |   +-- Camera calibration parameters
-|   +-- Optional IMU / flight controller data
+|   +-- Optional IMU or flight controller data
 +-- Perception Layer
 |   +-- Camera model
 |   +-- Feature extraction
@@ -31,172 +124,96 @@ UAV System
 |   +-- Relative pose estimation
 |   +-- Motion tracking
 |   +-- Trajectory output
-+-- Control / Navigation Layer
++-- Navigation / Control Layer
 |   +-- Flight controller interface
+|   +-- State fusion
 |   +-- Path tracking
-|   +-- Mission execution
 +-- Application Layer
     +-- Demo video
     +-- Project report
     +-- Manual documentation
 ```
 
-## Hardware Support
+## Recommended Environment
 
-Typical supported components:
-
-- UAV frame with onboard computer.
-- Stereo camera or depth camera.
-- Linux-based onboard computer.
-- PX4 / ArduPilot flight controller.
-- IMU, GPS, or optical flow sensor.
-- Wireless telemetry or network communication module.
-
-The current code structure mainly targets ROS-based visual odometry and camera modeling. Integration with flight controllers can be added through MAVROS, MAVSDK, or a custom communication layer.
-
-## Flight Control
-
-The repository can be integrated into a UAV flight-control pipeline as a perception and state-estimation module.
+Recommended environment for `P2P2`:
 
 ```text
-Stereo images
--> visual odometry
--> relative pose estimation
--> navigation state update
--> flight control command
--> UAV motion execution
-```
-
-For real flight, the visual odometry output should be fused with IMU, GPS, barometer, or other sensors before being used as a control input.
-
-## Functional Modules
-
-### Camera Models
-
-Located in:
-
-```text
-P2P2/camera_models/
-```
-
-This module provides camera model support and calibration-related utilities for visual perception.
-
-### Stereo Visual Odometry
-
-Located in:
-
-```text
-P2P2/stereo_vo_estimator/
-```
-
-This ROS package provides stereo visual odometry estimation, including stereo camera configuration, relative pose message definition, visual odometry node, RViz configuration, and launch files.
-
-### Documentation and Demo
-
-```text
-project3_manual (1).pdf
-P2P2/report.pdf
-demo.mp4
-```
-
-## Environment Dependencies
-
-Recommended environment:
-
-```text
-Ubuntu 18.04 / 20.04
-ROS Melodic / ROS Noetic
+Ubuntu 20.04
+ROS Noetic
+GCC 9
 CMake
 catkin
 C++14 or later
 OpenCV
 Eigen
+PCL
+Ceres
 RViz
 ```
 
-For ROS dependencies:
+Common ROS dependencies:
 
 ```bash
-sudo apt install ros-noetic-cv-bridge ros-noetic-image-transport
-sudo apt install ros-noetic-tf ros-noetic-rviz
+sudo apt update
+sudo apt install -y ros-noetic-desktop-full
+sudo apt install -y python3-rosdep python3-catkin-tools
+sudo apt install -y build-essential cmake libeigen3-dev libopencv-dev libpcl-dev libceres-dev
 ```
 
-## Deployment Steps
+## Build P2P2
 
-### 1. Enter the Project
-
-```bash
-cd "D:/github/无人机系统"
-```
-
-### 2. Prepare a Catkin Workspace
+Build inside a Linux filesystem path. Avoid compiling directly under mounted Windows paths that contain spaces or non-ASCII characters.
 
 ```bash
+source /opt/ros/noetic/setup.bash
 mkdir -p ~/catkin_ws/src
-cd ~/catkin_ws/src
-```
-
-Copy or link the packages:
-
-```bash
-cp -r "<repo-path>/P2P2/camera_models" .
-cp -r "<repo-path>/P2P2/stereo_vo_estimator" .
-```
-
-### 3. Build the Workspace
-
-```bash
+cp -r /path/to/uav-system/P2P2/camera_models ~/catkin_ws/src/
+cp -r /path/to/uav-system/P2P2/stereo_vo_estimator ~/catkin_ws/src/
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
 ```
 
-### 4. Launch Stereo Visual Odometry
+## Run P2P2
 
-```bash
-roslaunch stereo_vo_estimator stereo_vo_bag.launch
-```
-
-### 5. Visualize in RViz
-
-```bash
-rviz -d P2P2/stereo_vo_estimator/config/stereo.rviz
-```
-
-## File Directory
+Put a compatible ROS1 bag file at:
 
 ```text
-.
-+-- README.md
-+-- demo.mp4
-+-- project3_manual (1).pdf
-+-- P2P2
-    +-- report.pdf
-    +-- camera_models
-    |   +-- CMakeLists.txt
-    |   +-- package.xml
-    |   +-- readme.md
-    |   +-- include
-    |   +-- src
-    +-- stereo_vo_estimator
-        +-- CMakeLists.txt
-        +-- package.xml
-        +-- config
-        +-- include
-        +-- launch
-        +-- msg
-        +-- src
+~/catkin_ws/src/stereo_vo_estimator/bag/realsense_1.bag
+```
+
+Launch stereo visual odometry:
+
+```bash
+source /opt/ros/noetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+roslaunch stereo_vo stereo_vo_bag.launch
+```
+
+Open RViz in another terminal:
+
+```bash
+source /opt/ros/noetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+rviz -d ~/catkin_ws/src/stereo_vo_estimator/config/stereo.rviz
+```
+
+Check runtime confidence output:
+
+```bash
+rostopic echo -n 1 /stereo_vo/vo_confidence
+rostopic echo -n 1 /stereo_vo/frame_quality_text
 ```
 
 ## Safety Notes
 
 - Test visual odometry with recorded data before real flight.
 - Do not directly feed unvalidated visual odometry output into a flight controller.
-- Use sensor fusion for real UAV navigation.
-- Verify camera calibration before running pose estimation.
-- Confirm topic names, coordinate frames, and timestamp synchronization.
+- Fuse visual odometry with IMU, GPS, barometer, or other sensors for real UAV navigation.
+- Verify camera calibration, topic names, coordinate frames, and timestamp synchronization before running experiments.
 - Keep manual override available during real-world UAV tests.
 
 ## License
 
-This project is intended for UAV research, education, and engineering demonstration. Please refer to the repository license for detailed usage terms.
+The `P2P2/stereo_vo_estimator` package is MIT licensed. The `P2P2/camera_models` package may include third-party camera model code with separate upstream licensing terms. Review the relevant license files before redistribution.
