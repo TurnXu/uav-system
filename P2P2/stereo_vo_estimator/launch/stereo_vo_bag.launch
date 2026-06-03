@@ -1,8 +1,12 @@
 <launch>
-    <node pkg="stereo_vo" type="stereo_vo" name="stereo_vo" output="screen" args="$(find stereo_vo)/config/realsense_1/realsense_n3_unsync.yaml">
+    <arg name="config_file" default="$(find stereo_vo)/config/realsense_1/realsense_n3_unsync.yaml" />
+    <arg name="bag_file" default="$(find stereo_vo)/bag/realsense_1.bag" />
+    <arg name="loop" default="true" />
+
+    <node pkg="stereo_vo" type="stereo_vo" name="stereo_vo" output="screen" args="$(arg config_file)">
     </node>
 
-    <node name="rosbag" pkg="rosbag" type="play" respawn="false" args="--delay=1 --queue=1000 $(find stereo_vo)/bag/realsense_1.bag" />
+    <node if="$(arg loop)" name="rosbag" pkg="rosbag" type="play" respawn="false" args="--loop --delay=1 --queue=1000 $(arg bag_file)" />
+    <node unless="$(arg loop)" name="rosbag" pkg="rosbag" type="play" respawn="false" args="--delay=1 --queue=1000 $(arg bag_file)" />
 
 </launch>
-

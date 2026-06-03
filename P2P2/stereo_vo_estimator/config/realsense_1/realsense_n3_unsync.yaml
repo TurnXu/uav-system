@@ -4,6 +4,7 @@
 
 image0_topic: "/camera/infra1/image_rect_raw"
 image1_topic: "/camera/infra2/image_rect_raw"
+imu_topic: "/djiros/imu"
 
 cam0_calib: "left.yaml"
 cam1_calib: "right.yaml"
@@ -48,3 +49,30 @@ feature_threshold: 50       # min tracking feature to switch key frame
 flow_back: 1            # perform forward and backward optical flow to improve feature tracking accuracy
 
 show_feature: 1           # show tracked features in the images
+
+# Quality-aware VO and lightweight IMU-assist parameters.
+# Set use_quality_aware/use_quality_filtering/use_weighted_pnp/use_imu to 0
+# to restore the original stereo VO baseline.
+use_quality_aware: 1
+use_quality_filtering: 1
+use_weighted_pnp: 1
+use_imu: 1
+min_disparity_q: 1.0
+max_depth_q: 20.0
+max_fb_error_q: 1.5
+max_stereo_lk_error_q: 20.0
+max_temporal_lk_error_q: 20.0
+min_quality_weight: 0.1
+weight_disp_sigma: 2.0
+weight_stereo_sigma: 10.0
+weight_fb_sigma: 1.0
+weight_temp_sigma: 10.0
+weight_top_ratio: 0.8
+
+# IMU is used for short-term gyro rotation prediction and runtime consistency
+# diagnosis. This is not a full tightly-coupled VIO preintegration pipeline.
+imu_max_interval: 0.01
+gyro_weight: 1.0
+acc_weight: 0.0
+imu_prediction_max_time: 0.2
+confidence_warn_threshold: 0.35

@@ -1,0 +1,37 @@
+# Catkin / ROS build outputs
+build/
+devel/
+install/
+log/
+.catkin_tools/
+
+# ROS data and generated logs
+*.bag
+*.db3
+*.mcap
+*.active
+*.orig
+*.log
+
+# Large local artifacts
+*.pdf
+*.ppt
+*.pptx
+*.zip
+*.tar
+*.tar.gz
+
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local backups
+backup_before_imu_quality/

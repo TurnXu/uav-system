@@ -15,6 +15,7 @@
 #include "camodocal/sparse_graph/Transform.h"
 #include "camodocal/gpl/EigenQuaternionParameterization.h"
 #include "camodocal/gpl/EigenUtils.h"
+#include "camodocal/gpl/opencv_compat.h"
 #include "camodocal/camera_models/CostFunctionFactory.h"
 
 #include "ceres/ceres.h"

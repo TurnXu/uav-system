@@ -5,6 +5,7 @@
 
 #include "camodocal/chessboard/ChessboardQuad.h"
 #include "camodocal/chessboard/Spline.h"
+#include "camodocal/gpl/opencv_compat.h"
 
 #define MAX_CONTOUR_APPROX  7
 
